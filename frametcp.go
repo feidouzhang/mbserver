@@ -86,3 +86,7 @@ func (frame *TCPFrame) SetException(exception *Exception) {
 func (frame *TCPFrame) setLength() {
 	frame.Length = uint16(len(frame.Data) + 2)
 }
+
+func (frme *TCPFrame) GetDeviceAddr() uint8 {
+	return frme.Device
+}

@@ -10,6 +10,7 @@ type Framer interface {
 	GetFunction() uint8
 	SetException(exception *Exception)
 	SetData(data []byte)
+	GetDeviceAddr() uint8
 }
 
 // GetException retunrns the Modbus exception or Success (indicating not exception).
@@ -21,12 +22,13 @@ func GetException(frame Framer) (exception Exception) {
 	return exception
 }
 
-func registerAddressAndNumber(frame Framer) (register int, numRegs int, endRegister int) {
+func registerAddressAndNumber(frame Framer) (register int, numRegs int, endRegister int, deviceAddr int) {
 	data := frame.GetData()
 	register = int(binary.BigEndian.Uint16(data[0:2]))
 	numRegs = int(binary.BigEndian.Uint16(data[2:4]))
 	endRegister = register + numRegs
-	return register, numRegs, endRegister
+	deviceAddr = int(frame.GetDeviceAddr())
+	return register, numRegs, endRegister, deviceAddr
 }
 
 func registerAddressAndValue(frame Framer) (int, uint16) {

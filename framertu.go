@@ -83,3 +83,7 @@ func (frame *RTUFrame) SetException(exception *Exception) {
 	frame.Function = frame.Function | 0x80
 	frame.Data = []byte{byte(*exception)}
 }
+
+func (frame *RTUFrame) GetDeviceAddr() uint8 {
+	return frame.Address
+}
