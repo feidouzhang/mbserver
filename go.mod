@@ -1,4 +1,4 @@
-module mbserver
+module github.com/feidouzhang/ylmbserver
 
 go 1.19
 
