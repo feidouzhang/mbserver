@@ -1,6 +1,7 @@
 package mbserver
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -52,6 +53,7 @@ func TestModbus(t *testing.T) {
 	}
 	defer s.Close()
 
+	fmt.Println("my commit")
 	// Allow the server to start and to avoid a connection refused on the client
 	time.Sleep(1 * time.Millisecond)
 
