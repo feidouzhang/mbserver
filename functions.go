@@ -2,6 +2,7 @@ package mbserver
 
 import (
 	"encoding/binary"
+	"fmt"
 )
 
 // ReadCoils function 1, reads coils from internal memory.
@@ -49,10 +50,11 @@ func ReadDiscreteInputs(s *Server, frame Framer) ([]byte, *Exception) {
 // ReadHoldingRegisters function 3, reads holding registers from internal memory.
 func ReadHoldingRegisters(s *Server, frame Framer) ([]byte, *Exception) {
 	register, numRegs, endRegister, deviceAddr := registerAddressAndNumber(frame)
+	fmt.Println(deviceAddr)
 	if endRegister > 65536 {
 		return []byte{}, &IllegalDataAddress
 	}
-	return append([]byte{byte(numRegs * 2)}, Uint16ToBytes(s.HoldingRegisters[deviceAddr][register:endRegister])...), &Success
+	return append([]byte{byte(numRegs * 2)}, Uint16ToBytes(s.HoldingRegisters[register:endRegister])...), &Success
 }
 
 // ReadInputRegisters function 4, reads input registers from internal memory.
@@ -79,7 +81,8 @@ func WriteSingleCoil(s *Server, frame Framer) ([]byte, *Exception) {
 func WriteHoldingRegister(s *Server, frame Framer) ([]byte, *Exception) {
 	register, value := registerAddressAndValue(frame)
 	deviceAddr := frame.GetDeviceAddr()
-	s.HoldingRegisters[deviceAddr][register] = value
+	fmt.Println(deviceAddr)
+	s.HoldingRegisters[register] = value
 	return frame.GetData()[0:4], &Success
 }
 
@@ -117,6 +120,7 @@ func WriteMultipleCoils(s *Server, frame Framer) ([]byte, *Exception) {
 // WriteHoldingRegisters function 16, writes holding registers to internal memory.
 func WriteHoldingRegisters(s *Server, frame Framer) ([]byte, *Exception) {
 	register, numRegs, _, deviceAddr := registerAddressAndNumber(frame)
+	fmt.Println(deviceAddr)
 	valueBytes := frame.GetData()[5:]
 	var exception *Exception
 	var data []byte
@@ -127,7 +131,7 @@ func WriteHoldingRegisters(s *Server, frame Framer) ([]byte, *Exception) {
 
 	// Copy data to memroy
 	values := BytesToUint16(valueBytes)
-	valuesUpdated := copy(s.HoldingRegisters[deviceAddr][register:], values)
+	valuesUpdated := copy(s.HoldingRegisters[register:], values)
 	if valuesUpdated == numRegs {
 		exception = &Success
 		data = frame.GetData()[0:4]

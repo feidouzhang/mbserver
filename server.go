@@ -21,7 +21,7 @@ type Server struct {
 	function         [256](func(*Server, Framer) ([]byte, *Exception))
 	DiscreteInputs   []byte
 	Coils            []byte
-	HoldingRegisters [][]uint16
+	HoldingRegisters []uint16
 	InputRegisters   []uint16
 }
 
@@ -38,7 +38,7 @@ func NewServer() *Server {
 	// Allocate Modbus memory maps.
 	s.DiscreteInputs = make([]byte, 65536)
 	s.Coils = make([]byte, 65536)
-	s.HoldingRegisters = make([][]uint16, 65536)
+	s.HoldingRegisters = make([]uint16, 65536)
 	s.InputRegisters = make([]uint16, 65536)
 
 	// Add default functions.
