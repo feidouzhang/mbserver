@@ -31,7 +31,7 @@ The golang [mbserver documentation](https://godoc.org/github.com/tbrandon/mbserv
 Create a Modbus TCP Server (Slave):
 
 ```go
-package main
+package 
 
 import (
 	"log"
@@ -40,7 +40,7 @@ import (
 	"github.com/tbrandon/mbserver"
 )
 
-func main() {
+func () {
 	serv := mbserver.NewServer()
 	err := serv.ListenTCP("127.0.0.1:1502")
 	if err != nil {
@@ -60,7 +60,7 @@ Change the address to 0.0.0.0 to listen on all network interfaces.
 
 An example of a client writing and reading holding regsiters:
 ```go
-package main
+package 
 
 import (
 	"fmt"
@@ -68,7 +68,7 @@ import (
 	"github.com/goburrow/modbus"
 )
 
-func main() {
+func () {
 	handler := modbus.NewTCPClientHandler("localhost:1502")
 	// Connect manually so that multiple requests are handled in one session
 	err := handler.Connect()

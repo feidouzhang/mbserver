@@ -23,6 +23,11 @@ type Server struct {
 	Coils            []byte
 	HoldingRegisters []uint16
 	InputRegisters   []uint16
+	WriteCallback    func() (int, uint8, int, int, []byte) //设备地址，功能码，寄存器地址，寄存器数量，
+}
+
+func (c *Server) RegisterCallback(cb func() (int, uint8, int, int, []byte)) {
+	c.WriteCallback = cb
 }
 
 // Request contains the connection and Modbus frame.
